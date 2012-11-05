@@ -33,21 +33,22 @@ describe('fileset test', function () {
   /* }}} */
 
   /* {{{ should_build_setmode_works_fine() */
-  xit('should_build_setmode_works_fine', function() {
-    Build.setmode(__filename, 0644);
+  it('should_build_setmode_works_fine', function(done) {
+    fileset(__filename, function (f) {
+      f.setmode(0777);
+      var _me = fs.statSync(__filename);
+      should.ok(_me.mode & 040);
+      should.ok(_me.mode & 020);
+      should.ok(_me.mode & 010);
 
-    var _me = fs.statSync(__filename);
-    should.ok(_me.mode & 0400);
-    should.ok(_me.mode & 0200);
-    should.ok(!(_me.mode & 0100));
+      f.setmode(0644);
+      var _me = fs.statSync(__filename);
+      should.ok(_me.mode & 0400);
+      should.ok(_me.mode & 0200);
+      should.ok(!(_me.mode & 0100));
 
-    Build.setmode(__filename, 0777);
-    var _me = fs.statSync(__filename);
-    should.ok(_me.mode & 040);
-    should.ok(_me.mode & 020);
-    should.ok(_me.mode & 010);
-
-    Build.setmode(__filename, 0644);
+      done();
+    });
   });
   /* }}} */
 
