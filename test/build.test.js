@@ -10,8 +10,9 @@ describe('build library', function() {
   it('should_build_fileset_works_fine', function() {
 
     var _files  = [];
-    Build.fileset(__dirname + '/../', function(fname) {
-      _files.push(fname);
+    Build.fileset(__dirname + '/../', function(fname, base) {
+      console.log(base + '');
+      _files.push([fname, base]);
     });
     _files.should.include(__filename);
 
@@ -31,7 +32,7 @@ describe('build library', function() {
   /* }}} */
 
   /* {{{ should_build_setmode_works_fine() */
-  it('should_build_setmode_works_fine', function() {
+  xit('should_build_setmode_works_fine', function() {
     Build.setmode(__filename, 0644);
 
     var _me = fs.statSync(__filename);
@@ -50,7 +51,7 @@ describe('build library', function() {
   /* }}} */
 
   /* {{{ should_build_init_works_fine() */
-  it('should_build_init_works_fine', function() {
+  xit('should_build_init_works_fine', function() {
     var _me = Build.init(undefined, __dirname);
 
     var the = (new Date()).getTime();
@@ -89,7 +90,7 @@ describe('build library', function() {
   /* }}} */
 
   /* {{{ should_makeconf_with_directory_works_fine() */
-  it('should_makeconf_with_directory_works_fine', function () {
+  xit('should_makeconf_with_directory_works_fine', function () {
     var _me = Build.init('etc/build/test1.properties', __dirname, {
       'test.c2' : 'force value'
     });
@@ -98,7 +99,7 @@ describe('build library', function() {
   /* }}} */
 
   /* {{{ should_makedir_works_fine() */
-  it('should_makedir_works_fine', function () {
+  xit('should_makedir_works_fine', function () {
     var dir = __dirname + '/tmp/a/b/' + process.pid;
     try {
       require('child_process').exec('rm -rf "' + dir + '"');
