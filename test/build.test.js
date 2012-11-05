@@ -6,50 +6,6 @@ var Build   = require(__dirname + '/../');
 
 describe('build library', function() {
 
-  /* {{{ should_build_fileset_works_fine() */
-  it('should_build_fileset_works_fine', function() {
-
-    var _files  = [];
-    Build.fileset(__dirname + '/../', function(fname, base) {
-      console.log(base + '');
-      _files.push([fname, base]);
-    });
-    _files.should.include(__filename);
-
-    Build.fileset(__filename, function(fname) {
-        fname.should.eql(__filename);
-    });
-
-    try {
-      var _files  = [];
-      Build.fileset(__dirname + '/i_am_not_exist', function(fname) {
-        _files.push(fname);
-      });
-    } catch (e) {
-    }
-    _files.should.eql([]);
-  });
-  /* }}} */
-
-  /* {{{ should_build_setmode_works_fine() */
-  xit('should_build_setmode_works_fine', function() {
-    Build.setmode(__filename, 0644);
-
-    var _me = fs.statSync(__filename);
-    should.ok(_me.mode & 0400);
-    should.ok(_me.mode & 0200);
-    should.ok(!(_me.mode & 0100));
-
-    Build.setmode(__filename, 0777);
-    var _me = fs.statSync(__filename);
-    should.ok(_me.mode & 040);
-    should.ok(_me.mode & 020);
-    should.ok(_me.mode & 010);
-
-    Build.setmode(__filename, 0644);
-  });
-  /* }}} */
-
   /* {{{ should_build_init_works_fine() */
   xit('should_build_init_works_fine', function() {
     var _me = Build.init(undefined, __dirname);
