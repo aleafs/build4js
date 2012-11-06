@@ -74,9 +74,12 @@ describe('build library', function() {
         'test.c6' : _tm + ''
       });
 
+      Build.syntax(__dirname + '/a.log').should.eql(['i.will.not.be.found', 'time.now']);
+
       done();
     });
   });
   /* }}} */
 
 });
+
