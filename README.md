@@ -2,6 +2,7 @@
 
 ## About
 
+`build4js` is a lightweigh build tool for Node.js. It is always used to generate config files.
 
 ## Install
 
@@ -11,9 +12,7 @@ $ npm install build4js
 
 ## Usage
 
-```javascript
-
-```
+There is complete demo in `doc/sample.js`.
 
 ## License
 

@@ -1,11 +1,11 @@
 {
   "name": "build4js",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Aleafs Zhang (zhangxc83@gmail.com)",
   "contributors": [],
   "homepage": "git@github.com:aleafs/build4js.git",
-  "description": "",
-  "keywords": [ "wait", "events" ],
+  "description": "build4js a lightweight build tool for Node.js",
+  "keywords": [ "build", "ci" ],
   "dependencies": {},
   "engines": {
     "node": ">=0.6.9"
