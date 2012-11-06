@@ -56,42 +56,9 @@ if (!path.existsSync(_defaults)) {
 }
 
 var _me = build.create(_defaults, HOME, _force);
+build.fileset(HOME + '/build/tpl', /\.(ini)$/, function (fn) {
+  _me.compile(fn.full, 'etc/' + fn.base);
+});
 
-/* {{{ task_make_test() */
-var task_make_test = function () {
-  _me.makedir('test/unit/etc');
-  _me.makedir('test/unit/tmp');
-
-  _me.makeconf('build/test', 'test/unit/etc/');
-  _me.makeconf('build/tpl/rest.ini', 'test/unit/etc/rest.ini', {
-    'statusfile' : path.normalize(__dirname + '/../test/unit/tmp/status'),
-  });
-  _me.makeconf('build/tpl/daemon.ini', 'test/unit/etc/daemon.ini');
-};
-
-/* }}} */
-
-/* {{{ task_make_bin() */
-
-var task_make_bin = function () {
-  _me.makedir('bin');
-  _me.makedir(_me.$('log.root'));
-  _me.makeconf('node_modules/shark/resource/script/appctl.sh',   'bin/' + __APPNAME__, {
-    'app.name'  : __APPNAME__,
-    '200.file'  : _me.$('200.file', ''),
-    'properties': _me.$('propfile', _props),
-    'node.bin'  : _me.$('node.bin', process.execPath),
-  });
-  Builder.setmode('bin/' + __APPNAME__, 0755);
-
-  _me.makeconf('build/script/logclean.sh', 'bin/logclean', {
-    'log.expire' : _me.$('log.expire', 7)
-  });
-  Builder.setmode('bin/logclean', 0755);
-};
-/* }}} */
-
-task_make_test();
-task_make_bin();
 process.exit(0);
 

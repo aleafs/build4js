@@ -2,5 +2,5 @@
 
 "use strict";
 
-module.exports = require(__dirname + '/lib/build.js');
+module.exports = require(__dirname + '/lib/builder.js');
 
