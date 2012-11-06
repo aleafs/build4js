@@ -6,12 +6,16 @@ var fileset = require(__dirname + '/../').fileset;
 
 describe('fileset test', function () {
 
-  /* {{{ should_build_fileset_works_fine() */
-  it('should_build_fileset_works_fine', function() {
+  /* {{{ should_fileset_walk_works_fine() */
+  it('should_fileset_walk_works_fine', function() {
 
     var _files = [];
-    fileset(__dirname + '/../', function(file) {
+    fileset(__dirname, function(file) {
       _files.push(file.full);
+      if (file.full.indexOf('.git') > -1) {
+        // XXX: 默认去掉隐藏文件
+        (true).should.eql(false);
+      }
     });
     _files.should.include(__filename);
 
@@ -32,8 +36,8 @@ describe('fileset test', function () {
   });
   /* }}} */
 
-  /* {{{ should_build_setmode_works_fine() */
-  it('should_build_setmode_works_fine', function(done) {
+  /* {{{ should_fileset_setmode_works_fine() */
+  it('should_fileset_setmode_works_fine', function(done) {
     fileset(__filename, function (f) {
       f.setmode(0777);
       var _me = fs.statSync(__filename);
@@ -49,6 +53,27 @@ describe('fileset test', function () {
 
       done();
     });
+  });
+  /* }}} */
+
+  /* {{{ should_fileset_filter_works_fine() */
+  it('should_fileset_filter_works_fine', function () {
+
+    fileset(__dirname, function (s) {return false;}, function (fn) {
+      (true).should.eql(false);
+    });
+
+    var _files = [];
+    fileset(__dirname + '/../', '.md$', function (fn) {
+      _files.push(fn.base);
+    });
+    _files.should.eql(['README.md']);
+
+    var _files = [];
+    fileset(__dirname + '/../', /\.md$/, function (fn) {
+      _files.push(fn.base);
+    });
+    _files.should.eql(['README.md']);
   });
   /* }}} */
 

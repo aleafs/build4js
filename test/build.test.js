@@ -6,8 +6,8 @@ var Build   = require(__dirname + '/../');
 
 describe('build library', function() {
 
-  /* {{{ should_build_create_without_file_works_fine() */
-  it('should_build_create_without_file_works_fine', function () {
+  /* {{{ should_without_file_works_fine() */
+  it('should_without_file_works_fine', function () {
     var _me = Build.create(null, null, {'foo' : 231, 'bar' : 'xxyz', 'zero' : 0});
     _me.get('foo').should.eql(231);
     _me.get('bar').should.eql('xxyz');
