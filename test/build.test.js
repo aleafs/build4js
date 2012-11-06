@@ -36,11 +36,8 @@ describe('build library', function() {
   });
   /* }}} */
 
-  /* {{{ should_build_init_works_fine() */
-  it('should_build_init_works_fine', function() {
-
-    var _me = Build.create('i_am_not_exists');
-    _me.properties().should.eql({});
+  /* {{{ should_build_compile_works_fine() */
+  it('should_build_compile_works_fine', function (done) {
 
     var _me = Build.create(__dirname + '/tpl/test1.properties', __dirname);
     _me.properties().should.eql({
@@ -48,66 +45,37 @@ describe('build library', function() {
       'test.c2' : '"replace last data"',
       'test.c3' : '1345281197672',
       'test.c4' : '##i.will.not.be.found##',
-      'test.c5' : '1345281197672'
+      'test.c5' : '##contain.next##',
+      'test.c6' : '##time.now##'
     });
 
-    return;
-    var the = (new Date()).getTime();
-
-    _me.makedir(__dirname + '/etc/build').makedir('etc/build');
-    _me.makeconf(__dirname + '/../../build/test/test.properties', 'etc/build/test1.properties', {
-      'test.c3.value'   : the,
-      'test.c5' : the,
+    var _tm = Date.now();
+    var _me = Build.create('i_am_not_exists', __dirname, {
+      'time.now' : 0
+    });
+    _me.properties().should.eql({
+      'time.now' : 0
     });
 
-    var _me = Build.init('etc/build/test1.properties', __dirname, {
-      'test.c2' : 'force value'
-    });
-    _me.property().should.eql({
-      'test.c1' : '123dsf=4 5有效',
-      'test.c2' : 'force value',
-      'test.c3' : the + '',
-      'test.c4' : '##i.will.not.be.found##',
-      'test.c5' : the + '',
-    });
-    _me.makeconf(__dirname + '/../../build/test/test.properties', 'etc/build/test2.properties', {
-      'test.c3.value'       : _me.$('test.c1'),
-      'i.will.not.be.found' : 'i.am.found',
+    _me.compile(__dirname + '/tpl/test1.properties', 'a.log', {
+      'contain.next' : '##time.now##',
+      'time.now' : _tm
     });
 
-    var _me = Build.init('etc/build/test2.properties', __dirname);
-    _me.property().should.eql({
-      'test.c1' : '123dsf=4 5有效',
-      'test.c2' : '"replace last data"',
-      'test.c3' : '123dsf=4 5有效',
-      'test.c4' : 'i.am.found',
-      'test.c5' : the + '',
-    });
-    _me.$('i am not defined', 'hello W').should.eql('hello W');
-  });
-  /* }}} */
+    fs.readFile(__dirname + '/a.log', 'utf8', function (e, d) {
+      should.ok(!e);
 
-  /* {{{ should_makeconf_with_directory_works_fine() */
-  xit('should_makeconf_with_directory_works_fine', function () {
-    var _me = Build.init('etc/build/test1.properties', __dirname, {
-      'test.c2' : 'force value'
-    });
-    _me.makeconf(__dirname + '/../../build/test/', __dirname + '/tmp/');
-  });
-  /* }}} */
+      Build.create(__dirname + '/a.log').properties().should.eql({
+        'test.c1' : '123dsf=4 5有效',
+        'test.c2' : '"replace last data"',
+        'test.c3' : '1345281197672',
+        'test.c4' : '##i.will.not.be.found##',
+        'test.c5' : '##time.now##',
+        'test.c6' : _tm + ''
+      });
 
-  /* {{{ should_makedir_works_fine() */
-  xit('should_makedir_works_fine', function () {
-    var dir = __dirname + '/tmp/a/b/' + process.pid;
-    try {
-      require('child_process').exec('rm -rf "' + dir + '"');
-    } catch (e) {}
-
-    var _me = Build.init('etc/build/test1.properties', __dirname, {
-      'test.c2' : 'force value'
+      done();
     });
-    _me.makedir(dir);
-    fs.statSync(dir).isDirectory().should.eql(true);
   });
   /* }}} */
 
