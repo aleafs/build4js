@@ -77,4 +77,16 @@ describe('fileset test', function () {
   });
   /* }}} */
 
+  /* {{{ should_mkdir_works_fine() */
+  it('should_mkdir_works_fine', function () {
+    var dir = __dirname + '/tmp/a/b/' + process.pid;
+    try {
+      require('child_process').exec('rm -rf "' + dir + '"');
+    } catch (e) {}
+
+    require(__dirname + '/../').mkdir(dir);
+    fs.statSync(dir).isDirectory().should.eql(true);
+  });
+  /* }}} */
+
 });

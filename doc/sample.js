@@ -3,7 +3,6 @@
 var os = require('os');
 var path = require('path');
 var build = require('build');
-
 var HOME = process.env.PWD;
 
 /**
@@ -51,10 +50,14 @@ if (!path.existsSync(_defaults)) {
      * @ 自定义变量
      */
     'dir.root'  : HOME,
+    'run.user'  : process.env.USER,
 
-  }, _force)).compile();
+  }, _force)).compile('build/tpl/default.properties', _defaults);
 }
 
+/**
+ * Add your script here:
+ */
 var _me = build.create(_defaults, HOME, _force);
 build.fileset(HOME + '/build/tpl', /\.(ini)$/, function (fn) {
   _me.compile(fn.full, 'etc/' + fn.base);
