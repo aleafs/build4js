@@ -2,7 +2,7 @@
 
 var os = require('os');
 var path = require('path');
-var build = require('build');
+var build = require('build4js');
 var HOME = process.env.PWD;
 
 /**
