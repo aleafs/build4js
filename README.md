@@ -1,46 +1,17 @@
-[![Build Status](https://secure.travis-ci.org/aleafs/waitus.png?branch=master)](http://travis-ci.org/aleafs/waitus)
+[![Build Status](https://secure.travis-ci.org/aleafs/build4js.png?branch=master)](http://travis-ci.org/aleafs/build4js)
 
 ## About
 
-假设一个场景，你需要从远程的网络服务（例如zookeeper）中备份一棵树到本地，这个服务能提供的特性有：
-
-* client端只有异步API；
-* 每次只能访问每个节点的下一层子节点，孙子是找不到的。
-
-你的代码该怎么写？
 
 ## Install
 
 ```bash
-$ npm install waitus
+$ npm install build4js
 ```
 
 ## Usage
 
 ```javascript
-
-var waitus = require('waitus');
-var _me	= waitus.create(function () {
-  console.log('赤壁，开战！');
-});
-
-_me.wait('万事', function () {
-  var evt = waitus.create(function () {
-    _me.emit('万事');
-  });
-  evt.wait('最后一件事', function () {
-    evt.emit('最后一件事');
-  });
-  evt.wait('其他9999件事', function () {
-    evt.emit('其他9999件事');
-  });
-});
-
-_me.wait('东风', function () {
-  setTimeout(function () {
-    _me.emit('东风');
-  }, 1000);
-});
 
 ```
 
