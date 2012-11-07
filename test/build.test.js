@@ -81,5 +81,16 @@ describe('build library', function() {
   });
   /* }}} */
 
+  /**
+   * this is a bug case
+   */
+  it('should_syntax_works_fine_when_none_pattern', function (done) {
+    fs.writeFile(__dirname + '/a.log', 'aa', function (e) {
+      should.ok(!e);
+      Build.syntax(__dirname + '/a.log').should.eql([]);
+      done();
+    });
+  });
+
 });
 
