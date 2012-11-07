@@ -57,15 +57,15 @@ describe('build library', function() {
       'time.now' : 0
     });
 
-    _me.compile(__dirname + '/tpl/test1.properties', 'a.log', {
+    var _fn = _me.compile(__dirname + '/tpl/test1.properties', 'a.log', {
       'contain.next' : '##time.now##',
       'time.now' : _tm
     });
 
-    fs.readFile(__dirname + '/a.log', 'utf8', function (e, d) {
+    fs.readFile(_fn, 'utf8', function (e, d) {
       should.ok(!e);
 
-      Build.create(__dirname + '/a.log').properties().should.eql({
+      Build.create(_fn).properties().should.eql({
         'test.c1' : '123dsf=4 5有效',
         'test.c2' : '"replace last data"',
         'test.c3' : '1345281197672',
@@ -74,7 +74,7 @@ describe('build library', function() {
         'test.c6' : _tm + ''
       });
 
-      Build.syntax(__dirname + '/a.log').should.eql(['i.will.not.be.found', 'time.now']);
+      Build.syntax(_fn).should.eql(['i.will.not.be.found', 'time.now']);
 
       done();
     });
