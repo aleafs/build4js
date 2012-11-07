@@ -51,6 +51,12 @@ describe('fileset test', function () {
       should.ok(_me.mode & 0200);
       should.ok(!(_me.mode & 0100));
 
+      try {
+        f.setmode(0644, './i_am_not_exists');
+        (true).should.eql(false);
+      } catch (e) {
+        e.message.should.include('ENOENT, no such file or directory');
+      }
       done();
     });
   });
