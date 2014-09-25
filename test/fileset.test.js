@@ -17,7 +17,7 @@ describe('fileset test', function () {
         (true).should.eql(false);
       }
     });
-    _files.should.include(__filename);
+    _files.should.containEql(__filename);
 
     fileset(__filename, function(fname) {
       fname.toString().should.eql(__filename);
@@ -30,7 +30,7 @@ describe('fileset test', function () {
       });
       (true).should.eql(false);
     } catch (e) {
-      e.message.should.include('ENOENT, no such file or directory');
+      e.message.should.containEql('ENOENT, no such file or directory');
     }
     _files.should.eql([]);
   });
@@ -55,7 +55,7 @@ describe('fileset test', function () {
         f.setmode(0644, './i_am_not_exists');
         (true).should.eql(false);
       } catch (e) {
-        e.message.should.include('ENOENT, no such file or directory');
+        e.message.should.containEql('ENOENT, no such file or directory');
       }
       done();
     });

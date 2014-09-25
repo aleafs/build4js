@@ -1,19 +1,30 @@
 TESTS = test/*.test.js
 REPORTER = spec
 TIMEOUT = 5000
-JSCOVERAGE = ./node_modules/visionmedia-jscoverage/jscoverage --encoding=utf-8
-MOCHA = ./node_modules/mocha/bin/mocha
+NPM_REGISTRY = 
+NPM_INSTALL_PRODUCTION = PYTHON=`which python2.6` NODE_ENV=production npm install $(NPM_REGISTRY)
+NPM_INSTALL_TEST = PYTHON=`which python2.6` NODE_ENV=test npm install $(NPM_REGISTRY)
 
-test:
-	@npm install
-	@NODE_ENV=test $(MOCHA) --reporter $(REPORTER) --timeout $(TIMEOUT) $(MOCHA_OPTS) $(TESTS)
+MOCHA_OPTS =
 
-cov: 
-	@npm install
-	-npm install visionmedia-jscoverage
-	-rm -rf lib.bak
-	-mv -f lib lib.bak && ${JSCOVERAGE} lib.bak lib
-	-$(MOCHA) --reporter html-cov --timeout $(TIMEOUT) $(MOCHA_OPTS) $(TESTS) > ./coverage.html
-	-rm -rf lib && mv -f lib.bak lib
+init:
+	@$(NPM_INSTALL_TEST)
+
+test: init
+	@NODE_ENV=test ./node_modules/mocha/bin/mocha \
+		--reporter $(REPORTER) \
+		--timeout $(TIMEOUT) \
+		$(MOCHA_OPTS) \
+		$(TESTS)
+
+cov: init
+	-rm -f coverage.html
+	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov > coverage.html
+	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=travis-cov
+	
+coveralls: init
+	@$(MAKE) test
+	@echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
+	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js
 
 .PHONY: test

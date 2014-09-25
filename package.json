@@ -3,7 +3,11 @@
   "version": "0.1.4",
   "author": "Aleafs Zhang (zhangxc83@gmail.com)",
   "contributors": [],
-  "homepage": "git@github.com:aleafs/build4js.git",
+  "homepage": "https://github.com/aleafs/build4js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:aleafs/build4js.git"
+  },
   "description": "build4js a lightweight build tool for Node.js",
   "keywords": [ "build", "ci" ],
   "dependencies": {},
@@ -12,10 +16,22 @@
   },
   "devDependencies": {
     "mocha"  : ">=0.9.0",
-    "should" : ">=0.4.2"
+    "should" : ">=4.0.0",
+    "blanket": "*",
+    "coveralls" : "*",
+    "travis-cov": "*",
+    "mocha-lcov-reporter": "*"
   },
-  "main": "./index.js",
   "scripts": {
-    "test": "make test"
+    "main" : "index.js",
+    "test" : "make test"
+  },
+  "config" : {
+    "blanket": {
+      "pattern": "//^((?!(node_modules|test)).)*$/"
+    },
+    "travis-cov": {
+      "threshold": 90
+    }
   }
 }

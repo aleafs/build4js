@@ -1,4 +1,5 @@
 [![Build Status](https://secure.travis-ci.org/aleafs/build4js.png?branch=master)](http://travis-ci.org/aleafs/build4js)
+[![Coverage Status](https://coveralls.io/repos/aleafs/build4js/badge.png)](https://coveralls.io/r/aleafs/build4js)
 
 ## About
 
